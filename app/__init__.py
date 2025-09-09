@@ -1,0 +1,2 @@
+"""Email Elchemy application package."""
+
