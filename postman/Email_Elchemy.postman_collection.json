@@ -1,0 +1,98 @@
+{
+  "info": {
+    "name": "Email Elchemy",
+    "_postman_id": "8f7e8a2f-7c8e-4b6a-8c10-9f87b0c1d3a1",
+    "description": "REST API collection for Email Elchemy local dev.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8000" },
+    { "key": "apiKey", "value": "dev-local-key" },
+    { "key": "quoteId", "value": "1" },
+    { "key": "emailId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/health", "host": ["{{baseUrl}}"], "path": ["health"] }
+      }
+    },
+    {
+      "name": "Ingest Run",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "x-api-key", "value": "{{apiKey}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"label\": \"INBOX\",\n  \"query\": \"\",\n  \"max_results\": 10\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/ingest/run", "host": ["{{baseUrl}}"], "path": ["ingest", "run"] }
+      }
+    },
+    {
+      "name": "List Threads",
+      "request": {
+        "method": "GET",
+        "header": [ { "key": "x-api-key", "value": "{{apiKey}}" } ],
+        "url": {
+          "raw": "{{baseUrl}}/threads?limit=50&offset=0",
+          "host": ["{{baseUrl}}"],
+          "path": ["threads"],
+          "query": [ { "key": "limit", "value": "50" }, { "key": "offset", "value": "0" } ]
+        }
+      }
+    },
+    {
+      "name": "List Vendors",
+      "request": {
+        "method": "GET",
+        "header": [ { "key": "x-api-key", "value": "{{apiKey}}" } ],
+        "url": { "raw": "{{baseUrl}}/vendors", "host": ["{{baseUrl}}"], "path": ["vendors"] }
+      }
+    },
+    {
+      "name": "List Quotes",
+      "request": {
+        "method": "GET",
+        "header": [ { "key": "x-api-key", "value": "{{apiKey}}" } ],
+        "url": {
+          "raw": "{{baseUrl}}/quotes?has_latest_only=true",
+          "host": ["{{baseUrl}}"],
+          "path": ["quotes"],
+          "query": [ { "key": "has_latest_only", "value": "true" } ]
+        }
+      }
+    },
+    {
+      "name": "Get Quote by ID",
+      "request": {
+        "method": "GET",
+        "header": [ { "key": "x-api-key", "value": "{{apiKey}}" } ],
+        "url": {
+          "raw": "{{baseUrl}}/quotes/{{quoteId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["quotes", "{{quoteId}}"]
+        }
+      }
+    },
+    {
+      "name": "Reprocess Email",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "x-api-key", "value": "{{apiKey}}" } ],
+        "url": {
+          "raw": "{{baseUrl}}/reprocess/email/{{emailId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["reprocess", "email", "{{emailId}}"]
+        }
+      }
+    }
+  ]
+}
+

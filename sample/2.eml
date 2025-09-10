@@ -1,0 +1,1335 @@
+Delivered-To: vaibhav@sheerbrains.com
+Received: by 2002:a17:907:29d2:b0:b04:c4fd:8b69 with SMTP id ev18csp866461ejc;
+        Mon, 8 Sep 2025 05:45:59 -0700 (PDT)
+X-Received: by 2002:a05:651c:1545:b0:333:f25b:2900 with SMTP id 38308e7fff4ca-33ba8852c44mr25177391fa.5.1757335559102;
+        Mon, 08 Sep 2025 05:45:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1757335559; cv=none;
+        d=google.com; s=arc-20240605;
+        b=k8Y9WcwKP1Oy3PJ1MZNGveRr0jgUvZk1nokAfyEYR4W8z4IzhjqhB35tV/WDvq5aSt
+         QUy30K43oyFE+neD0IMeGxllo1YT/0FQRpURBEE5YltCUpELYekgXh6ETFykhdR4P92O
+         +KRW5Ijgys8gm24sGAU9MMBicHuBdawYOhLeL3qostCGQvnXScTTZOkxEeSoAn4uE2k/
+         YMh7zO1yocogGHvt6TAD/xFnplUMOoMdL1W+g+7yEuwKu2E6YrMqdjS0Ovh//gDoBBlf
+         tOR4BHpqzjTE4WhNKPpbRJ3EIjsRtniaMrYb0kIEqjdFEg5WFspVdzVqnHo5xFyaDk+u
+         1W5Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :dkim-signature;
+        bh=niy+nQF+FgWfRtdbI0TQvT6hU776vxYanzalRzPlOFc=;
+        fh=QDF8IhgkDIj6xylE8qnAgr6fykUM6WOh1aIfGE77sv8=;
+        b=PN+BHCwdd5WSTyu0qGx3kl3N7mXRl5KNUawbUFNavV6rwPnl7MbV//mx6tNHNeclkm
+         3iSKHLo1MKH3Dyvhbgira08yNLnWdad27ahIfbp4oWfivl779i77UNIKOhwMCdTTnPMA
+         z+OtBdbmBMElioaesKVIsvi6k29wcRVeHaIHf5tQeNbirn+zH0Jo+hSOOBL3Z0cHV8Hb
+         HZRkq4Ka5lCQEhmP3YleUYtsd3uLVE8YHZITgO77r3ZgzA8NK8SHNI2MKAsOQ75nRmoL
+         bkhAoX+VW6podqGWEW7KjOnh1epYYIdpqKlTavFTQ3ybFM5l/f7mHTC5kY/ecjfRrFKx
+         xp4Q==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@elchemy.com header.s=google header.b=Xx3ZpC5j;
+       spf=pass (google.com: domain of mehul.singhal@elchemy.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=mehul.singhal@elchemy.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=elchemy.com;
+       dara=pass header.i=@sheerbrains.com
+Return-Path: <mehul.singhal@elchemy.com>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
+        by mx.google.com with SMTPS id 38308e7fff4ca-336dc1ae601sor36075531fa.5.2025.09.08.05.45.58
+        for <vaibhav@sheerbrains.com>
+        (Google Transport Security);
+        Mon, 08 Sep 2025 05:45:59 -0700 (PDT)
+Received-SPF: pass (google.com: domain of mehul.singhal@elchemy.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@elchemy.com header.s=google header.b=Xx3ZpC5j;
+       spf=pass (google.com: domain of mehul.singhal@elchemy.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=mehul.singhal@elchemy.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=elchemy.com;
+       dara=pass header.i=@sheerbrains.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=elchemy.com; s=google; t=1757335558; x=1757940358; darn=sheerbrains.com;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=niy+nQF+FgWfRtdbI0TQvT6hU776vxYanzalRzPlOFc=;
+        b=Xx3ZpC5jnToikrta2hrfpZxGogfbagQKqzXVBuYPh7vPC0CXPAVCkvqx5sHJ/E7frw
+         xw9WDQX0Pc/AM6xIsgCiDQE1HmK96cA/0g94Y/jCMYIs1XGFtqAb/E5D0wO4MocIhTpJ
+         G7wbZPwGbL1+4SHEfB7WJ5gdHH8InPNAq+5cjmERIUBYzrXg4iClHZxpNp51F1Hz9HxJ
+         vbYDiMwm3qq6tyQ85/WP7cr8bRi1tvdRF6dIycho5sVhpLFjkKHlc0jp6Teie4ltWiFm
+         7LAUwc1qIW0Nde87OIIIa+04QD+TzhlFoig+C1TmzaCatksWjeF2l6EHtutRqT4VdoNo
+         dQxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757335558; x=1757940358;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=niy+nQF+FgWfRtdbI0TQvT6hU776vxYanzalRzPlOFc=;
+        b=QsiXtgbKcTeax5uwBwyXZ/IN9VhWXZLOukNkhkkQskHTrEarnW//4VhsAlHSlHLPk/
+         kkR9zCrXKLHStTF8kibDdr6lDnVbJVorO74DdW7P9S1xabWxuJYKu6/HzJSstmdAx6Mb
+         FNyYoAywYYbUrNTH5xe2ZWXuNY4caA38Cc+2B0oPARRVeJinQBjZkn2EG39rtoehSm9b
+         M9fFO8Kd5NJL4AL3lREWbN4sXWglUKWcmZrt4cXAW32befpMkvXeTOmGpCGWQB6xW2G4
+         GcjQqh8dikgdlWTMietg5QTL7SHR8xRFCtI0G3ffH5sN9zadK42WbNWkBFZsZmWK/o5w
+         vtFA==
+X-Gm-Message-State: AOJu0Yz8Kae1JXHt7TTj3Db9cN1jqIsMiGM5f33zXClid+/pohtdUGlz
+	h5/+xsXjqtFz+8RYX3Z+gviicUQ613fLFoFlbccmG64LR1M+SkhhwDUaW0ka+Jk7z3H4LWxiBg0
+	1IlA+UH9Sco2qU7onPH5rS56jmQOgrhCdjPhQdGMCHeJLiTUr9iU56sQ=
+X-Gm-Gg: ASbGncsono5+0cLNRcXDt3lpnmfgsWM0cFuWNJIJ4alAj77nZV4jE2hGuc1goiG6n1k
+	ftRo79uFwRDfkxjxrEvGRhcE6AHFipQdp3idC+NNXbUCS2KBzcHKCKcvZOa9Km1xMYuK4XwGDQc
+	/sDsoGcLONnY3eiF66xxUkLF11yoHce1FmSpNCg//fI4e3l7qx562SWdaYz0cQCrVrgu+bDHMbb
+	Otvae5H8fY7NW18CHmXoOWId6fzajXMWjUJ/XWszMWIGV8rHg==
+X-Google-Smtp-Source: AGHT+IGJiPYUHB728eowOJ6nLaTgiq/Q+ghdaGXk8yHRUWngQH1LOiQ/M0dTHo1DwTmMcA2znrkb06T4ur01jv+h/5w=
+X-Received: by 2002:a2e:a98c:0:b0:336:b891:18db with SMTP id
+ 38308e7fff4ca-33ba88532damr24926401fa.2.1757335557880; Mon, 08 Sep 2025
+ 05:45:57 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAN4yW92RgD17JJD08dt5KXxRZqKbUtTc4UqA+7X6s4f3Q7gKLQ@mail.gmail.com>
+ <GV1PR09MB6076D03A65480521A138E9A89F23A@GV1PR09MB6076.eurprd09.prod.outlook.com>
+ <CAN4yW92zot_Ee52aGKXUMHMyPzROB4-9_tmSb=chVi8NY1EeAQ@mail.gmail.com>
+ <GV1PR09MB607614210D5FF4B1D85BC5E39F2FA@GV1PR09MB6076.eurprd09.prod.outlook.com>
+ <CAN4yW91f=MJVrc3p7ehEJdEV78uhDT=nf_UsxJ2qNXGDB0-M2w@mail.gmail.com>
+ <DB9PR09MB6081E6E7828F429AD9AC637C9F2FA@DB9PR09MB6081.eurprd09.prod.outlook.com>
+ <GV1PR09MB6076143518E073E1044AAA1C9F31A@GV1PR09MB6076.eurprd09.prod.outlook.com>
+ <CAN4yW93vBOmUrEVqQHhza1JgfLp8cQGk7KFDisomirE3_JSBVw@mail.gmail.com> <GV1PR09MB60763ED46E47BE05647C6D6C9F30A@GV1PR09MB6076.eurprd09.prod.outlook.com>
+In-Reply-To: <GV1PR09MB60763ED46E47BE05647C6D6C9F30A@GV1PR09MB6076.eurprd09.prod.outlook.com>
+From: Mehul Singhal <mehul.singhal@elchemy.com>
+Date: Mon, 8 Sep 2025 18:15:45 +0530
+X-Gm-Features: Ac12FXy9xSlkqv9RGGVgRs4jJ_KynGJYpQr81hL8_PbZkHWUMGX6AU_3kB98lMw
+Message-ID: <CAO0qODa=yMr0CXYGM4oyS-8yO-yghp6TKeGj+LVX1Xe29mUZCA@mail.gmail.com>
+Subject: Fwd: [Purchase] RE: RFQ || D Limonine || Elchemy <> Cutrale
+To: Vaibhav Kalra <vaibhav@sheerbrains.com>
+Content-Type: multipart/related; boundary="000000000000ae0e4d063e49919b"
+
+--000000000000ae0e4d063e49919b
+Content-Type: multipart/alternative; boundary="000000000000ae0e4c063e49919a"
+
+--000000000000ae0e4c063e49919a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+---------- Forwarded message ---------
+From: Edson Vieira de Lima <elima@cutrale.com.br>
+Date: Tue, 19 Aug 2025 at 18:19
+Subject: [Purchase] RE: RFQ || D Limonine || Elchemy <> Cutrale
+To: Aditya Pawar <aditya.pawar@elchemy.com>
+Cc: Marcos P Lima Filho <marcos@cutrale.com>, purchase <purchase@elchemy.co=
+m
+>
+
+
+Dear Aditya,
+
+
+
+Thank you for your feedback.
+
+
+
+Noted, thanks. Let us keep in touch.
+
+
+
+Best regards
+
+
+
+*Edson Vieira de Lima* | Export Manager
+*Sucocitrico Cutrale Ltda.* | &#128222 +55-16-3301-1302 | &#128241
++55-16-99604-3158
+
+P Imprima somente o necess=C3=A1rio. Colabore com o meio ambiente. / Please
+consider the environment. Only print if it=E2=80=99s essential.
+
+*From:* Aditya Pawar <aditya.pawar@elchemy.com>
+*Sent:* Tuesday, August 19, 2025 1:46 AM
+*To:* Edson Vieira de Lima <elima@cutrale.com.br>
+*Cc:* Marcos P Lima Filho <marcos@cutrale.com>; purchase <
+purchase@elchemy.com>
+*Subject:* Re: RFQ || D Limonine || Elchemy <> Cutrale
+
+
+
+Dear Edson, Our prices are still high, the customer is expecting around
+10.5 usd/kg. Thanks and Regards, Aditya Pawar Sourcing  Specialist +91
+7040024725 https://www.elchemy.com/ On Tue, 19 Aug 2025 at 02:57, Edson
+Vieira de Lima < elima@cutrale.com.br > wrote: Dea
+
+*External sender* <aditya.pawar@elchemy.com>
+Make sure you trust this sender before taking any actions.
+
+Dear Edson,
+
+
+
+Our prices are still high, the customer is expecting around 10.5 usd/kg.
+
+
+Thanks and Regards,
+
+Aditya Pawar
+
+*Sourcing Specialist*
+
++91 7040024725
+
+https://www.elchemy.com/
+<https://linkprotect.cudasvc.com/url?a=3Dhttps%3a%2f%2fwww.elchemy.com%2f&c=
+=3DE,1,knf1IxSbScayjv7P5DnBQkWPRT3ye5fwVy7hvb1Iq0rmfM33vIZCqrVAfRfRL30Uim7x=
+YXo_Zhd3JiIK7yJ-yHf5gGTvXz2RaTFZU9jDGZgICxaW-r4J&typo=3D1>
+
+[image: Imagem removida pelo remetente.]
+
+
+
+
+
+
+
+
+
+
+
+
+
+On Tue, 19 Aug 2025 at 02:57, Edson Vieira de Lima <elima@cutrale.com.br>
+wrote:
+
+Dear Aditya,
+
+
+
+I hope you are doing well!
+
+
+
+Kindly reminder!
+
+
+
+Best regards
+
+
+
+*Edson Vieira de Lima* | Export Manager
+*Sucocitrico Cutrale Ltda.* | &#128222 +55-16-3301-1302 | &#128241
++55-16-99604-3158
+
+P Imprima somente o necess=C3=A1rio. Colabore com o meio ambiente. / Please
+consider the environment. Only print if it=E2=80=99s essential.
+
+*From:* Edson Vieira de Lima
+*Sent:* Friday, August 8, 2025 2:18 PM
+*To:* Aditya Pawar <aditya.pawar@elchemy.com>
+*Cc:* Marcos P Lima Filho <marcos@cutrale.com>; purchase <
+purchase@elchemy.com>
+*Subject:* RE: RFQ || D Limonine || Elchemy <> Cutrale
+
+
+
+Dear Aditya,
+
+
+
+Thank you for your quick answer
+
+
+
+Current market is US$ 13,50 P/Kg Fob Santos.
+
+
+
+Best regards
+
+
+
+*Edson Vieira de Lima* | Export Manager
+*Sucocitrico Cutrale Ltda.* | =F0=9F=93=9E +55-16-3301-1302 | =F0=9F=93=B1 =
++55-16-99604-3158
+
+P Imprima somente o necess=C3=A1rio. Colabore com o meio ambiente. / Please
+consider the environment. Only print if it=E2=80=99s essential.
+
+*From:* Aditya Pawar <aditya.pawar@elchemy.com>
+*Sent:* Friday, August 8, 2025 9:48 AM
+*To:* Edson Vieira de Lima <elima@cutrale.com.br>
+*Cc:* Marcos P Lima Filho <marcos@cutrale.com>; purchase <
+purchase@elchemy.com>
+*Subject:* Re: RFQ || D Limonine || Elchemy <> Cutrale
+
+
+
+Dear Edson, What will be the best price from your side? Will quote the same
+to the customer. Currently the USA market delivered price for 1 container
+load is 10.75 USD/kg. Thanks and Regards, Aditya Pawar Sourcing  Specialist
++91 7040024725 https://www.elchemy.com/
+<https://linkprotect.cudasvc.com/url?a=3Dhttps%3a%2f%2fwww.elchemy.com%2f&c=
+=3DE,1,6WsD3r3vAdlG0Np5t9ioGwrMzsgbvHXprpSsNYjiva1aDuOmoPpC-17TwDAhpnX329m-=
+Xdrcm_CBwwIcW6eL7oYObc44SfQDctHowYsk4togGrp_fOJCE2MU5g,,&typo=3D1>
+On F
+
+*External sender* <aditya.pawar@elchemy.com>
+Make sure you trust this sender before taking any actions.
+
+Dear Edson,
+
+
+
+What will be the best price from your side?
+
+
+
+Will quote the same to the customer.
+
+
+
+Currently the USA market delivered price for 1 container load is 10.75
+USD/kg.
+
+
+
+Thanks and Regards,
+
+Aditya Pawar
+
+*Sourcing Specialist*
+
++91 7040024725
+
+https://www.elchemy.com/
+<https://linkprotect.cudasvc.com/url?a=3Dhttps%3a%2f%2fwww.elchemy.com%2f&c=
+=3DE,1,xv3-ihujIYUm92257uNu6KlMu-zo0F5DrTbhBu8jAuXmB0pELZsr_JCNDwPt8tr126UJ=
+7Twe2UOIZ0A2azImXZ-U0nDWOS6rQ7IjeD8nucZXkUYwRxc,&typo=3D1>
+
+[image: Imagem removida pelo remetente.]
+
+
+
+
+
+
+
+
+
+
+
+On Fri, Aug 8, 2025, 6:11=E2=80=AFPM Edson Vieira de Lima <elima@cutrale.co=
+m.br>
+wrote:
+
+Dear Aditya,
+
+
+
+Thank you for your feedback
+
+
+
+Unfortunately, we are unable to meet your target price at this time.
+
+May I ask if you have received similar offers from Brazilian companies?
+
+
+
+Looking forward to your response.
+
+
+
+Best regards
+
+
+
+*Edson Vieira de Lima* | Export Manager
+*Sucocitrico Cutrale Ltda.* | &#128222 +55-16-3301-1302 | &#128241
++55-16-99604-3158
+
+P Imprima somente o necess=C3=A1rio. Colabore com o meio ambiente. / Please
+consider the environment. Only print if it=E2=80=99s essential.
+
+*From:* Aditya Pawar <aditya.pawar@elchemy.com>
+*Sent:* Friday, August 8, 2025 4:46 AM
+*To:* Edson Vieira de Lima <elima@cutrale.com.br>
+*Cc:* Marcos P Lima Filho <marcos@cutrale.com>
+*Subject:* Re: RFQ || D Limonine || Elchemy <> Cutrale
+
+
+
+Dear Edson, Greetings! The customer has shared a target price of D-Limonene
+is $9.78/kg CFR Manzanillo upon sample approval. Can we match it? Please
+share your best FOB brazil price and CIF Manzanillo price? Thanks and
+Regards, Aditya Pawar Sourcing  Specialist +91 7
+
+*External sender* <aditya.pawar@elchemy.com>
+Make sure you trust this sender before taking any actions.
+
+Dear Edson,
+
+
+
+Greetings!
+
+The customer has shared a target price of D-Limonene is *$9.78/kg CFR
+Manzanillo* upon sample approval. Can we match it?
+
+
+
+Please share your best FOB brazil price and CIF Manzanillo price?
+
+
+
+
+
+
+Thanks and Regards,
+
+Aditya Pawar
+
+*Sourcing Specialist*
+
++91 7040024725
+
+https://www.elchemy.com/
+<https://linkprotect.cudasvc.com/url?a=3Dhttps%3a%2f%2fwww.elchemy.com%2f&c=
+=3DE,1,_-mxNguzi1q4DFAhOhvbx2J5jgUkbZLeE9XRhtDDeDvtp1Hnr14pjTbZkxKPmLYgKNjR=
+iuS7bQJb5FTdJAeqqWvlXXiy73N-YkMGwgSG&typo=3D1>
+
+[image: Imagem removida pelo remetente.]
+
+
+
+
+
+
+
+
+
+
+
+
+
+On Mon, 4 Aug 2025 at 19:49, Edson Vieira de Lima <elima@cutrale.com.br>
+wrote:
+
+Dear Aditya,
+
+
+
+Thank you for your e-mail
+
+
+
+Kindly let me know your target price for prompt shipment.
+
+
+
+Looking forward to your reply
+
+
+
+Best regards
+
+
+
+*Edson Vieira de Lima* | Export Manager
+*Sucocitrico Cutrale Ltda.* | &#128222 +55-16-3301-1302 | &#128241
++55-16-99604-3158
+
+P Imprima somente o necess=C3=A1rio. Colabore com o meio ambiente. / Please
+consider the environment. Only print if it=E2=80=99s essential.
+
+*From:* Aditya Pawar <aditya.pawar@elchemy.com>
+*Sent:* Monday, August 4, 2025 9:01 AM
+*To:* Edson Vieira de Lima <elima@cutrale.com.br>
+*Cc:* Marcos P Lima Filho <marcos@cutrale.com>
+*Subject:* RFQ || D Limonine || Elchemy <> Cutrale
+
+
+
+Dear Edson, Greetings! I hope this email finds you well.At the moment I
+have a fresh inquiry for you please find the details below.
+Product:-D-Limonene  Quantity:-2FCL per month PO D:-Manzanillo( Mexico).
+The customer is looking for a 200mts quantity.  Do let me
+
+*Warning: Unusual sender* <aditya.pawar@elchemy.com>
+You don't usually receive emails from this address. Make sure you trust
+this sender before taking any actions.
+
+Dear Edson,
+
+
+
+Greetings!
+
+I hope this email finds you well.At the moment I have a fresh inquiry for
+you please find the details below.
+
+
+
+
+*Product:-D-Limonene  Quantity:-2FCL per month*
+*POD:-Manzanillo( Mexico).*
+
+
+
+The customer is looking for a 200mts quantity.
+
+
+
+Do let me know if you need any further information.
+
+
+
+
+
+
+
+
+
+
+
+Thanks and Regards,
+
+Aditya Pawar
+
+*Sourcing Specialist*
+
++91 7040024725
+
+https://www.elchemy.com/
+<https://linkprotect.cudasvc.com/url?a=3Dhttps%3a%2f%2fwww.elchemy.com%2f&c=
+=3DE,1,SZBE1W32V8TqujDVad3lE1TRbNItyZ-hUSr_Jrr3kyRZJ6heimZvHtBEX8IUB4ZPLx1U=
+3ctmA-aJWZckkvbBiAnHDHVk2H9pKjcryIL1&typo=3D1>
+
+[image: Imagem removida pelo remetente.]
+
+
+
+
+
+
+
+
+
+[image: Imagem removida pelo remetente.]
+
+[image: Imagem removida pelo remetente.]
+
+--=20
+You received this message because you are subscribed to the Google Groups
+"Elchemy Purchase" group.
+To unsubscribe from this group and stop receiving emails from it, send an
+email to purchase+unsubscribe@elchemy.com.
+To view this discussion, visit
+https://groups.google.com/a/elchemy.com/d/msgid/purchase/GV1PR09MB60763ED46=
+E47BE05647C6D6C9F30A%40GV1PR09MB6076.eurprd09.prod.outlook.com
+<https://groups.google.com/a/elchemy.com/d/msgid/purchase/GV1PR09MB60763ED4=
+6E47BE05647C6D6C9F30A%40GV1PR09MB6076.eurprd09.prod.outlook.com?utm_medium=
+=3Demail&utm_source=3Dfooter>
+.
+
+--000000000000ae0e4c063e49919a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><br clear=3D"all"></div><div><div dir=3D"ltr" class=
+=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><i=
+mg src=3D"https://ci3.googleusercontent.com/mail-sig/AIorK4wv9-1R9Y6dFhYBZ4=
+t6U-vOGm3YFzwFSG30BivvV59r7efcaK6norquF9Ja7r26vBilgyJoU-FWoxhD"><br></div><=
+/div></div><br><br><div class=3D"gmail_quote gmail_quote_container"><div di=
+r=3D"ltr" class=3D"gmail_attr">---------- Forwarded message ---------<br>Fr=
+om: <strong class=3D"gmail_sendername" dir=3D"auto">Edson Vieira de Lima</s=
+trong> <span dir=3D"auto">&lt;<a href=3D"mailto:elima@cutrale.com.br">elima=
+@cutrale.com.br</a>&gt;</span><br>Date: Tue, 19 Aug 2025 at 18:19<br>Subjec=
+t: [Purchase] RE: RFQ || D Limonine || Elchemy &lt;&gt; Cutrale<br>To: Adit=
+ya Pawar &lt;<a href=3D"mailto:aditya.pawar@elchemy.com">aditya.pawar@elche=
+my.com</a>&gt;<br>Cc: Marcos P Lima Filho &lt;<a href=3D"mailto:marcos@cutr=
+ale.com">marcos@cutrale.com</a>&gt;, purchase &lt;<a href=3D"mailto:purchas=
+e@elchemy.com">purchase@elchemy.com</a>&gt;<br></div><br><br><div class=3D"=
+msg-6497920094404490276">
+
+
+
+
+
+<div lang=3D"EN-US" link=3D"blue" vlink=3D"purple" style=3D"word-wrap:break=
+-word">
+<div class=3D"m_-6497920094404490276WordSection1">
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Dear Aditya, <u></u=
+><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><u></u>=C2=A0<u></u=
+></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Thank you for your =
+feedback.<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><u></u>=C2=A0<u></u=
+></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Noted, thanks. Let =
+us keep in touch.<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><u></u>=C2=A0<u></u=
+></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Best regards<u></u>=
+<u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><u></u>=C2=A0<u></u=
+></span></p>
+<p><span style=3D"font-size:10pt"><span style=3D"font-family:trebuchet ms,h=
+elvetica,sans-serif"><span style=3D"font-size:11pt"><span style=3D"color:rg=
+b(0,51,102)"><u><strong>Edson Vieira de Lima</strong></u></span></span><spa=
+n style=3D"color:rgb(105,105,105)"><strong> </strong><span style=3D"font-si=
+ze:9pt">| Export Manager<br>
+<strong>Sucocitrico Cutrale Ltda.</strong> | &amp;#128222 +55-16-3301-1302 =
+| &amp;#128241 +55-16-99604-3158</span></span></span></span></p>
+
+<p><span style=3D"color:#1f497d"><span style=3D"font-size:22pt"><span style=
+=3D"font-family:webdings">P</span></span>=C2=A0<span style=3D"font-family:a=
+rial,helvetica,sans-serif"><span style=3D"font-size:8pt">Imprima somente o =
+necess=C3=A1rio. Colabore com o meio ambiente. /</span> <span style=3D"font=
+-size:8pt">Please consider the environment. Only print if it=E2=80=99s esse=
+ntial.</span></span></span></p>
+<div style=3D"border:none;border-top:solid #e1e1e1 1.0pt;padding:3.0pt 0cm =
+0cm 0cm">
+<p class=3D"MsoNormal"><b><span lang=3D"PT-BR" style=3D"font-size:11.0pt;fo=
+nt-family:&quot;Calibri&quot;,sans-serif">From:</span></b><span lang=3D"PT-=
+BR" style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif"> =
+Aditya Pawar &lt;<a href=3D"mailto:aditya.pawar@elchemy.com" target=3D"_bla=
+nk">aditya.pawar@elchemy.com</a>&gt;
+<br>
+<b>Sent:</b> Tuesday, August 19, 2025 1:46 AM<br>
+<b>To:</b> Edson Vieira de Lima &lt;<a href=3D"mailto:elima@cutrale.com.br"=
+ target=3D"_blank">elima@cutrale.com.br</a>&gt;<br>
+<b>Cc:</b> Marcos P Lima Filho &lt;<a href=3D"mailto:marcos@cutrale.com" ta=
+rget=3D"_blank">marcos@cutrale.com</a>&gt;; purchase &lt;<a href=3D"mailto:=
+purchase@elchemy.com" target=3D"_blank">purchase@elchemy.com</a>&gt;<br>
+<b>Subject:</b> Re: RFQ || D Limonine || Elchemy &lt;&gt; Cutrale<u></u><u>=
+</u></span></p>
+</div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div id=3D"m_-6497920094404490276preview-0f2083aea45b532d7564971d28ba9dfd">
+<p class=3D"MsoNormal"><span style=3D"font-size:1.0pt;color:#f6f6f6">Dear E=
+dson, Our prices are still high, the customer is expecting=C2=A0around 10.5=
+ usd/kg. Thanks and Regards, Aditya Pawar Sourcing=C2=A0 Specialist +91 704=
+0024725 <a href=3D"https://www.elchemy.com/" target=3D"_blank">https://www.=
+elchemy.com/</a>
+ On Tue, 19 Aug 2025 at 02:57, Edson Vieira de Lima &lt; <a href=3D"mailto:=
+elima@cutrale.com.br" target=3D"_blank">elima@cutrale.com.br</a> &gt; wrote=
+: Dea
+<u></u><u></u></span></p>
+</div>
+<div style=3D"margin-top:12.0pt;margin-bottom:12.0pt" id=3D"m_-649792009440=
+4490276banner-0f2083aea45b532d7564971d28ba9dfd">
+<div style=3D"border:none;border-left:solid #067cc1 3.0pt;padding:0cm 0cm 0=
+cm 6.0pt;border-radius:3px">
+<div>
+<p class=3D"MsoNormal" style=3D"line-height:15.0pt;background:#d5e9f4"><str=
+ong><span style=3D"font-size:10.5pt;font-family:&quot;Helvetica&quot;,sans-=
+serif;color:#191919">External sender</span></strong><span style=3D"font-siz=
+e:10.5pt;font-family:&quot;Helvetica&quot;,sans-serif;color:#191919">
+ &lt;<a href=3D"mailto:aditya.pawar@elchemy.com" target=3D"_blank">aditya.p=
+awar@elchemy.com</a>&gt; <br>
+Make sure you trust this sender before taking any actions. <u></u><u></u></=
+span></p>
+</div>
+</div>
+</div>
+<div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif">Dear Edson,<u></u><u></u></span></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif"><u></u>=C2=A0<u></u></span></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif">Our prices are still high, the customer is expecting=C2=A0aroun=
+d 10.5 usd/kg.<u></u><u></u></span></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><br clear=3D"all">
+<u></u><u></u></p>
+</div>
+<div>
+<div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif;color:black">Thanks and Regards,</span><span style=3D"color:blac=
+k"><u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif;color:black">Aditya Pawar</span><span style=3D"color:black"><u><=
+/u><u></u></span></p>
+<p class=3D"MsoNormal"><b><span style=3D"font-family:&quot;Trebuchet MS&quo=
+t;,sans-serif;color:#ef4136">Sourcing=C2=A0Specialist</span></b><span style=
+=3D"color:#222222"><u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif;color:black">+91 7040024725</span><span style=3D"color:black"><u=
+></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:black"><a href=3D"https://linkp=
+rotect.cudasvc.com/url?a=3Dhttps%3a%2f%2fwww.elchemy.com%2f&amp;c=3DE,1,knf=
+1IxSbScayjv7P5DnBQkWPRT3ye5fwVy7hvb1Iq0rmfM33vIZCqrVAfRfRL30Uim7xYXo_Zhd3Ji=
+IK7yJ-yHf5gGTvXz2RaTFZU9jDGZgICxaW-r4J&amp;typo=3D1" target=3D"_blank"><spa=
+n style=3D"font-family:&quot;Trebuchet MS&quot;,sans-serif;color:#1155cc">h=
+ttps://www.elchemy.com/</span></a><u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:black;border:solid windowtext 1=
+.0pt;padding:0cm"><img border=3D"0" width=3D"420" height=3D"148" style=3D"w=
+idth:4.375in;height:1.5416in" id=3D"m_-6497920094404490276Imagem_x0020_1" s=
+rc=3D"cid:ii_199295c52f1421d9aa31" alt=3D"Imagem removida pelo remetente.">=
+</span><span style=3D"color:black"><u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:black"><u></u>=C2=A0<u></u></sp=
+an></p>
+<p class=3D"MsoNormal"><span style=3D"color:black"><u></u>=C2=A0<u></u></sp=
+an></p>
+<p class=3D"MsoNormal"><span style=3D"color:black"><u></u>=C2=A0<u></u></sp=
+an></p>
+<p class=3D"MsoNormal"><span style=3D"color:black"><u></u>=C2=A0<u></u></sp=
+an></p>
+</div>
+</div>
+</div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<div>
+<p class=3D"MsoNormal">On Tue, 19 Aug 2025 at 02:57, Edson Vieira de Lima &=
+lt;<a href=3D"mailto:elima@cutrale.com.br" target=3D"_blank">elima@cutrale.=
+com.br</a>&gt; wrote:<u></u><u></u></p>
+</div>
+<blockquote style=3D"border:none;border-left:solid #cccccc 1.0pt;padding:0c=
+m 0cm 0cm 6.0pt;margin-left:4.8pt;margin-right:0cm">
+<div>
+<div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Dear Aditya,</span>=
+<u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">=C2=A0</span><u></u=
+><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">I hope you are doin=
+g well!</span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">=C2=A0</span><u></u=
+><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Kindly reminder!</s=
+pan><u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">=C2=A0</span><u></u=
+><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Best regards</span>=
+<u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">=C2=A0</span><u></u=
+><u></u></p>
+<p><strong><u><span style=3D"font-size:11.0pt;font-family:&quot;Trebuchet M=
+S&quot;,sans-serif;color:#003366">Edson Vieira de Lima</span></u></strong><=
+strong><span style=3D"font-size:10.0pt;font-family:&quot;Trebuchet MS&quot;=
+,sans-serif;color:dimgray">
+</span></strong><span style=3D"font-size:9.0pt;font-family:&quot;Trebuchet =
+MS&quot;,sans-serif;color:dimgray">| Export Manager<br>
+<strong><span style=3D"font-family:&quot;Trebuchet MS&quot;,sans-serif">Suc=
+ocitrico Cutrale Ltda.</span></strong> | &amp;#128222 +55-16-3301-1302 | &a=
+mp;#128241 +55-16-99604-3158</span><u></u><u></u></p>
+<p><span style=3D"font-size:22.0pt;font-family:Webdings;color:#1f497d">P</s=
+pan><span style=3D"color:#1f497d">=C2=A0</span><span style=3D"font-size:8.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:#1f497d">Imprima somente =
+o necess=C3=A1rio. Colabore com o meio ambiente. /</span><span style=3D"fon=
+t-family:&quot;Arial&quot;,sans-serif;color:#1f497d">
+</span><span style=3D"font-size:8.0pt;font-family:&quot;Arial&quot;,sans-se=
+rif;color:#1f497d">Please consider the environment. Only print if it=E2=80=
+=99s essential.</span><u></u><u></u></p>
+<div>
+<div style=3D"border:none;border-top:solid #e1e1e1 1.0pt;padding:3.0pt 0cm =
+0cm 0cm">
+<p class=3D"MsoNormal"><b><span lang=3D"PT-BR" style=3D"font-size:11.0pt;fo=
+nt-family:&quot;Calibri&quot;,sans-serif">From:</span></b><span lang=3D"PT-=
+BR" style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif"> =
+Edson
+ Vieira de Lima <br>
+<b>Sent:</b> Friday, August 8, 2025 2:18 PM<br>
+<b>To:</b> Aditya Pawar &lt;<a href=3D"mailto:aditya.pawar@elchemy.com" tar=
+get=3D"_blank">aditya.pawar@elchemy.com</a>&gt;<br>
+<b>Cc:</b> Marcos P Lima Filho &lt;<a href=3D"mailto:marcos@cutrale.com" ta=
+rget=3D"_blank">marcos@cutrale.com</a>&gt;; purchase &lt;<a href=3D"mailto:=
+purchase@elchemy.com" target=3D"_blank">purchase@elchemy.com</a>&gt;<br>
+<b>Subject:</b> RE: RFQ || D Limonine || Elchemy &lt;&gt; Cutrale</span><u>=
+</u><u></u></p>
+</div>
+</div>
+<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Dear Aditya,</span>=
+<u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">=C2=A0</span><u></u=
+><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Thank you for your =
+quick answer</span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">=C2=A0</span><u></u=
+><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Current market is U=
+S$ 13,50 P/Kg Fob Santos.</span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">=C2=A0</span><u></u=
+><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Best regards</span>=
+<u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">=C2=A0</span><u></u=
+><u></u></p>
+<p><strong><u><span style=3D"font-size:11.0pt;font-family:&quot;Trebuchet M=
+S&quot;,sans-serif;color:#003366">Edson Vieira de Lima</span></u></strong><=
+strong><span style=3D"font-size:10.0pt;font-family:&quot;Trebuchet MS&quot;=
+,sans-serif;color:dimgray">
+</span></strong><span style=3D"font-size:9.0pt;font-family:&quot;Trebuchet =
+MS&quot;,sans-serif;color:dimgray">| Export Manager<br>
+<strong><span style=3D"font-family:&quot;Trebuchet MS&quot;,sans-serif">Suc=
+ocitrico Cutrale Ltda.</span></strong> |
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Segoe UI Emoji&quot=
+;,sans-serif;color:dimgray">=F0=9F=93=9E</span><span style=3D"font-size:9.0=
+pt;font-family:&quot;Trebuchet MS&quot;,sans-serif;color:dimgray"> +55-16-3=
+301-1302 |
+</span><span style=3D"font-size:9.0pt;font-family:&quot;Segoe UI Emoji&quot=
+;,sans-serif;color:dimgray">=F0=9F=93=B1</span><span style=3D"font-size:9.0=
+pt;font-family:&quot;Trebuchet MS&quot;,sans-serif;color:dimgray"> +55-16-9=
+9604-3158</span><u></u><u></u></p>
+<p><span style=3D"font-size:22.0pt;font-family:Webdings;color:#1f497d">P</s=
+pan><span style=3D"color:#1f497d">=C2=A0</span><span style=3D"font-size:8.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:#1f497d">Imprima somente =
+o necess=C3=A1rio. Colabore com o meio ambiente. /</span><span style=3D"fon=
+t-family:&quot;Arial&quot;,sans-serif;color:#1f497d">
+</span><span style=3D"font-size:8.0pt;font-family:&quot;Arial&quot;,sans-se=
+rif;color:#1f497d">Please consider the environment. Only print if it=E2=80=
+=99s essential.</span><u></u><u></u></p>
+<div style=3D"border:none;border-top:solid #e1e1e1 1.0pt;padding:3.0pt 0cm =
+0cm 0cm">
+<p class=3D"MsoNormal"><b><span lang=3D"PT-BR" style=3D"font-size:11.0pt;fo=
+nt-family:&quot;Calibri&quot;,sans-serif">From:</span></b><span lang=3D"PT-=
+BR" style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif"> =
+Aditya
+ Pawar &lt;<a href=3D"mailto:aditya.pawar@elchemy.com" target=3D"_blank">ad=
+itya.pawar@elchemy.com</a>&gt;
+<br>
+<b>Sent:</b> Friday, August 8, 2025 9:48 AM<br>
+<b>To:</b> Edson Vieira de Lima &lt;<a href=3D"mailto:elima@cutrale.com.br"=
+ target=3D"_blank">elima@cutrale.com.br</a>&gt;<br>
+<b>Cc:</b> Marcos P Lima Filho &lt;<a href=3D"mailto:marcos@cutrale.com" ta=
+rget=3D"_blank">marcos@cutrale.com</a>&gt;; purchase &lt;<a href=3D"mailto:=
+purchase@elchemy.com" target=3D"_blank">purchase@elchemy.com</a>&gt;<br>
+<b>Subject:</b> Re: RFQ || D Limonine || Elchemy &lt;&gt; Cutrale</span><u>=
+</u><u></u></p>
+</div>
+<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
+<div id=3D"m_-6497920094404490276m_4210225813376741264preview-34b7f5e4cbf94=
+220c7fa40de90a0b465">
+<p class=3D"MsoNormal"><span style=3D"font-size:1.0pt;color:#f6f6f6">Dear E=
+dson, What will be the best price from your side? Will quote the same to th=
+e customer. Currently the USA market delivered price
+ for 1 container load is 10.75 USD/kg. Thanks and Regards, Aditya Pawar Sou=
+rcing=C2=A0 Specialist +91 7040024725
+<a href=3D"https://linkprotect.cudasvc.com/url?a=3Dhttps%3a%2f%2fwww.elchem=
+y.com%2f&amp;c=3DE,1,6WsD3r3vAdlG0Np5t9ioGwrMzsgbvHXprpSsNYjiva1aDuOmoPpC-1=
+7TwDAhpnX329m-Xdrcm_CBwwIcW6eL7oYObc44SfQDctHowYsk4togGrp_fOJCE2MU5g,,&amp;=
+typo=3D1" target=3D"_blank">
+https://www.elchemy.com/</a> On F </span><u></u><u></u></p>
+</div>
+<div style=3D"margin-top:12.0pt;margin-bottom:12.0pt" id=3D"m_-649792009440=
+4490276m_4210225813376741264banner-34b7f5e4cbf94220c7fa40de90a0b465">
+<div style=3D"border:none;border-left:solid #067cc1 3.0pt;padding:0cm 0cm 0=
+cm 6.0pt;border-radius:3px">
+<div>
+<p class=3D"MsoNormal" style=3D"line-height:15.0pt;background:#d5e9f4">
+<strong><span style=3D"font-size:10.5pt;font-family:&quot;Helvetica&quot;,s=
+ans-serif;color:#191919">External sender</span></strong><span style=3D"font=
+-size:10.5pt;font-family:&quot;Helvetica&quot;,sans-serif;color:#191919"> &=
+lt;<a href=3D"mailto:aditya.pawar@elchemy.com" target=3D"_blank">aditya.paw=
+ar@elchemy.com</a>&gt;
+<br>
+Make sure you trust this sender before taking any actions. </span><u></u><u=
+></u></p>
+</div>
+</div>
+</div>
+<div>
+<div>
+<p class=3D"MsoNormal">Dear Edson,<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">What will be the best price from your side?<u></u><u=
+></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">Will quote the same to the customer.<u></u><u></u></=
+p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">Currently the USA market delivered price for 1 conta=
+iner load is 10.75 USD/kg.<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
+</div>
+<div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif;color:black">Thanks and Regards,</span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif;color:black">Aditya Pawar</span><u></u><u></u></p>
+<p class=3D"MsoNormal"><b><span style=3D"font-family:&quot;Trebuchet MS&quo=
+t;,sans-serif;color:#ef4136">Sourcing=C2=A0Specialist</span></b><u></u><u><=
+/u></p>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif;color:black">+91 7040024725</span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"color:black"><a href=3D"https://linkp=
+rotect.cudasvc.com/url?a=3Dhttps%3a%2f%2fwww.elchemy.com%2f&amp;c=3DE,1,xv3=
+-ihujIYUm92257uNu6KlMu-zo0F5DrTbhBu8jAuXmB0pELZsr_JCNDwPt8tr126UJ7Twe2UOIZ0=
+A2azImXZ-U0nDWOS6rQ7IjeD8nucZXkUYwRxc,&amp;typo=3D1" target=3D"_blank"><spa=
+n style=3D"font-family:&quot;Trebuchet MS&quot;,sans-serif;color:#1155cc">h=
+ttps://www.elchemy.com/</span></a></span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"color:black;border:solid windowtext 1=
+.0pt;padding:0cm"><img border=3D"0" width=3D"420" height=3D"148" style=3D"w=
+idth:4.375in;height:1.5416in" id=3D"m_-6497920094404490276m_421022581337674=
+1264Imagem_x0020_1" src=3D"cid:ii_199295c52f1421d9aa31" alt=3D"Imagem remov=
+ida pelo remetente."></span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"color:black">=C2=A0</span><u></u><u><=
+/u></p>
+<p class=3D"MsoNormal"><span style=3D"color:black">=C2=A0</span><u></u><u><=
+/u></p>
+<p class=3D"MsoNormal"><span style=3D"color:black">=C2=A0</span><u></u><u><=
+/u></p>
+<p class=3D"MsoNormal"><span style=3D"color:black">=C2=A0</span><u></u><u><=
+/u></p>
+</div>
+</div>
+</div>
+<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
+<div>
+<div>
+<p class=3D"MsoNormal">On Fri, Aug 8, 2025, 6:11<span style=3D"font-family:=
+&quot;Arial&quot;,sans-serif">=E2=80=AF</span>PM Edson Vieira de Lima &lt;<=
+a href=3D"mailto:elima@cutrale.com.br" target=3D"_blank">elima@cutrale.com.=
+br</a>&gt;
+ wrote:<u></u><u></u></p>
+</div>
+<blockquote style=3D"border:none;border-left:solid #cccccc 1.0pt;padding:0c=
+m 0cm 0cm 6.0pt;margin-left:4.8pt;margin-top:5.0pt;margin-right:0cm;margin-=
+bottom:5.0pt">
+<div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Dear Aditya,</span>=
+<u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">=C2=A0</span><u></u=
+><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Thank you for your =
+feedback</span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">=C2=A0</span><u></u=
+><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Unfortunately, we a=
+re unable to meet your target price at this time.
+</span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">May I ask if you ha=
+ve received similar offers from Brazilian companies?
+</span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">=C2=A0</span><u></u=
+><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Looking forward to =
+your response.</span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">=C2=A0</span><u></u=
+><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Best regards</span>=
+<u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">=C2=A0</span><u></u=
+><u></u></p>
+<p><strong><u><span style=3D"font-size:11.0pt;font-family:&quot;Trebuchet M=
+S&quot;,sans-serif;color:#003366">Edson Vieira de Lima</span></u></strong><=
+strong><span style=3D"font-size:10.0pt;font-family:&quot;Trebuchet MS&quot;=
+,sans-serif;color:dimgray">
+</span></strong><span style=3D"font-size:9.0pt;font-family:&quot;Trebuchet =
+MS&quot;,sans-serif;color:dimgray">| Export Manager<br>
+<strong><span style=3D"font-family:&quot;Trebuchet MS&quot;,sans-serif">Suc=
+ocitrico Cutrale Ltda.</span></strong> | &amp;#128222 +55-16-3301-1302 | &a=
+mp;#128241 +55-16-99604-3158</span><u></u><u></u></p>
+<p><span style=3D"font-size:22.0pt;font-family:Webdings;color:#1f497d">P</s=
+pan><span style=3D"color:#1f497d">=C2=A0</span><span style=3D"font-size:8.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:#1f497d">Imprima somente =
+o necess=C3=A1rio. Colabore com o meio ambiente. /</span><span style=3D"fon=
+t-family:&quot;Arial&quot;,sans-serif;color:#1f497d">
+</span><span style=3D"font-size:8.0pt;font-family:&quot;Arial&quot;,sans-se=
+rif;color:#1f497d">Please consider the environment. Only print if it=E2=80=
+=99s essential.</span><u></u><u></u></p>
+<div style=3D"border:none;border-top:solid #e1e1e1 1.0pt;padding:3.0pt 0cm =
+0cm 0cm">
+<p class=3D"MsoNormal"><b><span lang=3D"PT-BR" style=3D"font-size:11.0pt;fo=
+nt-family:&quot;Calibri&quot;,sans-serif">From:</span></b><span lang=3D"PT-=
+BR" style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif"> =
+Aditya
+ Pawar &lt;<a href=3D"mailto:aditya.pawar@elchemy.com" target=3D"_blank">ad=
+itya.pawar@elchemy.com</a>&gt;
+<br>
+<b>Sent:</b> Friday, August 8, 2025 4:46 AM<br>
+<b>To:</b> Edson Vieira de Lima &lt;<a href=3D"mailto:elima@cutrale.com.br"=
+ target=3D"_blank">elima@cutrale.com.br</a>&gt;<br>
+<b>Cc:</b> Marcos P Lima Filho &lt;<a href=3D"mailto:marcos@cutrale.com" ta=
+rget=3D"_blank">marcos@cutrale.com</a>&gt;<br>
+<b>Subject:</b> Re: RFQ || D Limonine || Elchemy &lt;&gt; Cutrale</span><u>=
+</u><u></u></p>
+</div>
+<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
+<div id=3D"m_-6497920094404490276m_4210225813376741264m_3988816684762811851=
+preview-46aca376789fad472ff2543a28d397f0">
+<p class=3D"MsoNormal"><span style=3D"font-size:1.0pt;color:#f6f6f6">Dear E=
+dson, Greetings! The customer has shared a target price of=C2=A0D-Limonene =
+is $9.78/kg CFR Manzanillo upon sample approval. Can we match
+ it? Please share your best FOB brazil price and CIF Manzanillo price? Than=
+ks and Regards, Aditya Pawar Sourcing=C2=A0 Specialist +91 7
+</span><u></u><u></u></p>
+</div>
+<div style=3D"margin-top:12.0pt;margin-bottom:12.0pt" id=3D"m_-649792009440=
+4490276m_4210225813376741264m_3988816684762811851banner-46aca376789fad472ff=
+2543a28d397f0">
+<div style=3D"border:none;border-left:solid #067cc1 3.0pt;padding:0cm 0cm 0=
+cm 6.0pt;border-radius:3px">
+<div>
+<p class=3D"MsoNormal" style=3D"line-height:15.0pt;background:#d5e9f4">
+<strong><span style=3D"font-size:10.5pt;font-family:&quot;Helvetica&quot;,s=
+ans-serif;color:#191919">External sender</span></strong><span style=3D"font=
+-size:10.5pt;font-family:&quot;Helvetica&quot;,sans-serif;color:#191919"> &=
+lt;<a href=3D"mailto:aditya.pawar@elchemy.com" target=3D"_blank">aditya.paw=
+ar@elchemy.com</a>&gt;
+<br>
+Make sure you trust this sender before taking any actions. </span><u></u><u=
+></u></p>
+</div>
+</div>
+</div>
+<div>
+<div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif">Dear Edson,</span><u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif">=C2=A0</span><u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-bottom:12.0pt"><span style=3D"font-f=
+amily:&quot;Trebuchet MS&quot;,sans-serif">Greetings!</span><u></u><u></u><=
+/p>
+</div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif">The customer has shared a target price of=C2=A0D-Limonene is
+<b>$9.78/kg CFR Manzanillo</b> upon sample approval. Can we match it?</span=
+><u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif">=C2=A0</span><u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif">Please share your best FOB brazil price and CIF Manzanillo pric=
+e?</span><u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif">=C2=A0</span><u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif">=C2=A0</span><u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><br clear=3D"all">
+<u></u><u></u></p>
+</div>
+<div>
+<div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif;color:black">Thanks and Regards,</span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif;color:black">Aditya Pawar</span><u></u><u></u></p>
+<p class=3D"MsoNormal"><b><span style=3D"font-family:&quot;Trebuchet MS&quo=
+t;,sans-serif;color:#ef4136">Sourcing=C2=A0Specialist</span></b><u></u><u><=
+/u></p>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif;color:black">+91 7040024725</span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"color:black"><a href=3D"https://linkp=
+rotect.cudasvc.com/url?a=3Dhttps%3a%2f%2fwww.elchemy.com%2f&amp;c=3DE,1,_-m=
+xNguzi1q4DFAhOhvbx2J5jgUkbZLeE9XRhtDDeDvtp1Hnr14pjTbZkxKPmLYgKNjRiuS7bQJb5F=
+TdJAeqqWvlXXiy73N-YkMGwgSG&amp;typo=3D1" target=3D"_blank"><span style=3D"f=
+ont-family:&quot;Trebuchet MS&quot;,sans-serif;color:#1155cc">https://www.e=
+lchemy.com/</span></a></span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"color:black;border:solid windowtext 1=
+.0pt;padding:0cm"><img border=3D"0" width=3D"420" height=3D"148" style=3D"w=
+idth:4.375in;height:1.5416in" id=3D"m_-6497920094404490276m_421022581337674=
+1264m_3988816684762811851Imagem_x0020_1" src=3D"cid:ii_199295c52f1421d9aa31=
+" alt=3D"Imagem removida pelo remetente."></span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"color:black">=C2=A0</span><u></u><u><=
+/u></p>
+<p class=3D"MsoNormal"><span style=3D"color:black">=C2=A0</span><u></u><u><=
+/u></p>
+<p class=3D"MsoNormal"><span style=3D"color:black">=C2=A0</span><u></u><u><=
+/u></p>
+<p class=3D"MsoNormal"><span style=3D"color:black">=C2=A0</span><u></u><u><=
+/u></p>
+</div>
+</div>
+</div>
+<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
+</div>
+<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
+<div>
+<div>
+<p class=3D"MsoNormal">On Mon, 4 Aug 2025 at 19:49, Edson Vieira de Lima &l=
+t;<a href=3D"mailto:elima@cutrale.com.br" target=3D"_blank">elima@cutrale.c=
+om.br</a>&gt; wrote:<u></u><u></u></p>
+</div>
+<blockquote style=3D"border:none;border-left:solid #cccccc 1.0pt;padding:0c=
+m 0cm 0cm 6.0pt;margin-left:4.8pt;margin-top:5.0pt;margin-right:0cm;margin-=
+bottom:5.0pt">
+<div>
+<div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Dear Aditya,
+</span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">=C2=A0</span><u></u=
+><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Thank you for your =
+e-mail</span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">=C2=A0</span><u></u=
+><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Kindly let me know =
+your target price for prompt shipment.</span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">=C2=A0</span><u></u=
+><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Looking forward to =
+your reply</span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">=C2=A0</span><u></u=
+><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Best regards</span>=
+<u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">=C2=A0</span><u></u=
+><u></u></p>
+<p><strong><u><span style=3D"font-size:11.0pt;font-family:&quot;Trebuchet M=
+S&quot;,sans-serif;color:#003366">Edson Vieira de Lima</span></u></strong><=
+strong><span style=3D"font-size:10.0pt;font-family:&quot;Trebuchet MS&quot;=
+,sans-serif;color:dimgray">
+</span></strong><span style=3D"font-size:9.0pt;font-family:&quot;Trebuchet =
+MS&quot;,sans-serif;color:dimgray">| Export Manager<br>
+<strong><span style=3D"font-family:&quot;Trebuchet MS&quot;,sans-serif">Suc=
+ocitrico Cutrale Ltda.</span></strong> | &amp;#128222 +55-16-3301-1302 | &a=
+mp;#128241 +55-16-99604-3158</span><u></u><u></u></p>
+<p><span style=3D"font-size:22.0pt;font-family:Webdings;color:#1f497d">P</s=
+pan><span style=3D"color:#1f497d">=C2=A0</span><span style=3D"font-size:8.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:#1f497d">Imprima somente =
+o necess=C3=A1rio. Colabore com o meio ambiente. /</span><span style=3D"fon=
+t-family:&quot;Arial&quot;,sans-serif;color:#1f497d">
+</span><span style=3D"font-size:8.0pt;font-family:&quot;Arial&quot;,sans-se=
+rif;color:#1f497d">Please consider the environment. Only print if it=E2=80=
+=99s essential.</span><u></u><u></u></p>
+<div style=3D"border:none;border-top:solid #e1e1e1 1.0pt;padding:3.0pt 0cm =
+0cm 0cm">
+<p class=3D"MsoNormal"><b><span lang=3D"PT-BR" style=3D"font-size:11.0pt;fo=
+nt-family:&quot;Calibri&quot;,sans-serif">From:</span></b><span lang=3D"PT-=
+BR" style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif"> =
+Aditya
+ Pawar &lt;<a href=3D"mailto:aditya.pawar@elchemy.com" target=3D"_blank">ad=
+itya.pawar@elchemy.com</a>&gt;
+<br>
+<b>Sent:</b> Monday, August 4, 2025 9:01 AM<br>
+<b>To:</b> Edson Vieira de Lima &lt;<a href=3D"mailto:elima@cutrale.com.br"=
+ target=3D"_blank">elima@cutrale.com.br</a>&gt;<br>
+<b>Cc:</b> Marcos P Lima Filho &lt;<a href=3D"mailto:marcos@cutrale.com" ta=
+rget=3D"_blank">marcos@cutrale.com</a>&gt;<br>
+<b>Subject:</b> RFQ || D Limonine || Elchemy &lt;&gt; Cutrale</span><u></u>=
+<u></u></p>
+</div>
+<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
+<div id=3D"m_-6497920094404490276m_4210225813376741264m_3988816684762811851=
+m_-2735400881889545162preview-b36f94100776852081c88e272f8e35e2">
+<p class=3D"MsoNormal"><span style=3D"font-size:1.0pt;color:#f6f6f6">Dear E=
+dson, Greetings! I hope this email finds you well.At the moment I have a fr=
+esh inquiry for you please find the details=C2=A0below. Product:-D-Limonene=
+=C2=A0
+ Quantity:-2FCL per month PO D:-Manzanillo( Mexico). The customer is lookin=
+g=C2=A0for a 200mts quantity.=C2=A0 Do let me
+</span><u></u><u></u></p>
+</div>
+<div style=3D"margin-top:12.0pt;margin-bottom:12.0pt" id=3D"m_-649792009440=
+4490276m_4210225813376741264m_3988816684762811851m_-2735400881889545162bann=
+er-b36f94100776852081c88e272f8e35e2">
+<div style=3D"border:none;border-left:solid #ef7900 3.0pt;padding:0cm 0cm 0=
+cm 6.0pt;border-radius:3px">
+<div>
+<p class=3D"MsoNormal" style=3D"line-height:15.0pt;background:#ffebd7">
+<strong><span style=3D"font-size:10.5pt;font-family:&quot;Helvetica&quot;,s=
+ans-serif;color:#191919">Warning: Unusual sender</span></strong><span style=
+=3D"font-size:10.5pt;font-family:&quot;Helvetica&quot;,sans-serif;color:#19=
+1919"> &lt;<a href=3D"mailto:aditya.pawar@elchemy.com" target=3D"_blank">ad=
+itya.pawar@elchemy.com</a>&gt;
+<br>
+You don&#39;t usually receive emails from this address. Make sure you trust=
+ this sender before taking any actions.
+</span><u></u><u></u></p>
+</div>
+</div>
+</div>
+<div>
+<div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif">Dear Edson,</span><u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif">=C2=A0</span><u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-bottom:12.0pt"><span style=3D"font-f=
+amily:&quot;Trebuchet MS&quot;,sans-serif">Greetings!</span><u></u><u></u><=
+/p>
+</div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif">I hope this email finds you well.At the moment I have a fresh i=
+nquiry for you please find the details=C2=A0below.</span><u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif">=C2=A0</span><u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><b><span style=3D"font-family:&quot;Trebuchet MS&quo=
+t;,sans-serif">Product:-D-Limonene=C2=A0<br>
+Quantity:-2FCL per month</span></b><span style=3D"font-family:&quot;Trebuch=
+et MS&quot;,sans-serif"><br>
+<b>POD:-Manzanillo( Mexico).</b></span><u></u><u></u></p>
+</div>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif">The customer is looking=C2=A0for a 200mts quantity.=C2=A0</span=
+><u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif">Do let me know if you need any further information.</span><u></=
+u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
+</div>
+<div>
+<div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif;color:black">Thanks and Regards,</span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif;color:black">Aditya Pawar</span><u></u><u></u></p>
+<p class=3D"MsoNormal"><b><span style=3D"font-family:&quot;Trebuchet MS&quo=
+t;,sans-serif;color:#ef4136">Sourcing=C2=A0Specialist</span></b><u></u><u><=
+/u></p>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Trebuchet MS&quot;,=
+sans-serif;color:black">+91 7040024725</span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"color:black"><a href=3D"https://linkp=
+rotect.cudasvc.com/url?a=3Dhttps%3a%2f%2fwww.elchemy.com%2f&amp;c=3DE,1,SZB=
+E1W32V8TqujDVad3lE1TRbNItyZ-hUSr_Jrr3kyRZJ6heimZvHtBEX8IUB4ZPLx1U3ctmA-aJWZ=
+ckkvbBiAnHDHVk2H9pKjcryIL1&amp;typo=3D1" target=3D"_blank"><span style=3D"f=
+ont-family:&quot;Trebuchet MS&quot;,sans-serif;color:#1155cc">https://www.e=
+lchemy.com/</span></a></span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"color:black;border:solid windowtext 1=
+.0pt;padding:0cm"><img border=3D"0" width=3D"420" height=3D"148" style=3D"w=
+idth:4.375in;height:1.5416in" id=3D"m_-6497920094404490276m_421022581337674=
+1264m_3988816684762811851m_-2735400881889545162Imagem_x0020_1" src=3D"cid:i=
+i_199295c52f1421d9aa31" alt=3D"Imagem removida pelo remetente."></span><u><=
+/u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"color:black">=C2=A0</span><u></u><u><=
+/u></p>
+<p class=3D"MsoNormal"><span style=3D"color:black">=C2=A0</span><u></u><u><=
+/u></p>
+<p class=3D"MsoNormal"><span style=3D"color:black">=C2=A0</span><u></u><u><=
+/u></p>
+<p class=3D"MsoNormal"><span style=3D"color:black">=C2=A0</span><u></u><u><=
+/u></p>
+</div>
+</div>
+</div>
+<p class=3D"MsoNormal"><span style=3D"border:solid windowtext 1.0pt;padding=
+:0cm"><img border=3D"0" width=3D"1" height=3D"1" style=3D"width:.0104in;hei=
+ght:.0104in" id=3D"m_-6497920094404490276m_4210225813376741264m_39888166847=
+62811851m_-2735400881889545162Imagem_x0020_2" src=3D"cid:ii_199295c52f1421d=
+9aa31" alt=3D"Imagem removida pelo remetente."></span><u></u><u></u></p>
+</div>
+</div>
+</div>
+</div>
+</blockquote>
+</div>
+<p class=3D"MsoNormal"><span style=3D"border:solid windowtext 1.0pt;padding=
+:0cm"><img border=3D"0" width=3D"1" height=3D"1" style=3D"width:.0104in;hei=
+ght:.0104in" id=3D"m_-6497920094404490276m_4210225813376741264m_39888166847=
+62811851Imagem_x0020_4" src=3D"cid:ii_199295c52f1421d9aa31" alt=3D"Imagem r=
+emovida pelo remetente."></span><u></u><u></u></p>
+</div>
+</div>
+</div>
+</blockquote>
+</div>
+</div>
+</div>
+</div>
+</blockquote>
+</div>
+</div>
+</div>
+
+
+<p></p>
+
+-- <br>
+You received this message because you are subscribed to the Google Groups &=
+quot;Elchemy Purchase&quot; group.<br>
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:purchase+unsubscribe@elchemy.com" target=3D"_blan=
+k">purchase+unsubscribe@elchemy.com</a>.<br>
+To view this discussion, visit <a href=3D"https://groups.google.com/a/elche=
+my.com/d/msgid/purchase/GV1PR09MB60763ED46E47BE05647C6D6C9F30A%40GV1PR09MB6=
+076.eurprd09.prod.outlook.com?utm_medium=3Demail&amp;utm_source=3Dfooter" t=
+arget=3D"_blank">https://groups.google.com/a/elchemy.com/d/msgid/purchase/G=
+V1PR09MB60763ED46E47BE05647C6D6C9F30A%40GV1PR09MB6076.eurprd09.prod.outlook=
+.com</a>.<br>
+</div></div></div>
+
+--000000000000ae0e4c063e49919a--
+--000000000000ae0e4d063e49919b
+Content-Type: image/jpeg; name="~WRD2876.jpg"
+Content-Disposition: inline; filename="~WRD2876.jpg"
+Content-Transfer-Encoding: base64
+Content-ID: <ii_199295c52f1421d9aa31>
+X-Attachment-Id: ii_199295c52f1421d9aa31
+
+/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0a
+HBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIy
+MjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCABkAGQDASIA
+AhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA
+AAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3
+ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm
+p6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA
+AwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx
+BhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK
+U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3
+uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD3+iii
+gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+ooAKKKKACiiigAooooAKKKKACiiigD//2Q==
+--000000000000ae0e4d063e49919b--
